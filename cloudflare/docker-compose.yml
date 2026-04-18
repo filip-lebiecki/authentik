@@ -1,0 +1,17 @@
+networks:
+  dmz_net:
+    name: dmz_net
+
+services:
+  cloudflared:
+    env_file:
+      - .env
+    container_name: cloudflared
+    image: cloudflare/cloudflared:latest
+    pull_policy: always
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN:?token is required}
+    networks:
+      - dmz_net
